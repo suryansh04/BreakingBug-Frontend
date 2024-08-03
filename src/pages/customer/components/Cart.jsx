@@ -18,7 +18,11 @@ import {
   removeAllFromCart,
   removeFromCart,
 } from "../../../redux/userSlice";
-import { BasicButton, LightPurpleButton } from "../../../utils/styles";
+// ** Changed the import statement from  import { BasicButton, LightPurpleButton } from '../../../utils/styles'; to  import { BasicButton, LightPurpleButton } from "../../../utils/buttonStyles styles";
+import {
+  BasicButton,
+  LightPurpleButton,
+} from "../../../utils/buttonStyles styles";
 import { useNavigate } from "react-router-dom";
 
 //** Chanaged the import statement from import { updateCustomer } from '../../../redux/userSlice'; to import { updateCurrentUser } from '../../../redux/userSlice'; */
