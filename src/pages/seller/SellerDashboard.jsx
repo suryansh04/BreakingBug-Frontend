@@ -5,7 +5,6 @@ import {
     Box,
     Toolbar,
     List,
-    Typography,
     Divider,
     IconButton,
 } from '@mui/material';
@@ -91,13 +90,11 @@ const SellerDashboard = () => {
                                 onClick={homeHandler}
                             >
                                 <LocalMallIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-
                                 SHOPCART
                             </NavLogo>
                         </Typography>
 
                         {/* Mobile */}
-
                         <Typography
                             variant="h5"
                             noWrap
@@ -122,7 +119,6 @@ const SellerDashboard = () => {
                                 onClick={homeHandler}
                             >
                                 <LocalMallIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-
                                 SHOPCART
                             </NavLogo>
                         </Typography>
@@ -154,13 +150,12 @@ const SellerDashboard = () => {
                         <Route path="/Seller/products" element={<ShowProducts />} />
                         <Route path="/Seller/products/product/:id" element={<ViewProductSeller />} />
 
-                        {
-                            currentRole === "Shopcart" &&
+                        {currentRole === "Shopcart" && (
                             <>
                                 <Route path="/Seller/shopcart" element={<ShopcartSpecial />} />
                                 <Route path="/Seller/uploadproducts" element={<Products productData={productDataList} />} />
                             </>
-                        }
+                        )}
 
                         <Route path="/Seller/orders" element={<ShowOrders />} />
                         <Route path="/Seller/orders/customers/:id" element={<ShowCustomers />} />
@@ -190,15 +185,17 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        px: [1],
+        padding: '0 8px', // **Updated padding to be more standard**
     },
     drawerStyled: {
-        display: "flex"
+        display: "flex",
+        width: 240, // **Added width to define size of the drawer**
+        flexShrink: 0, // **Prevents drawer from shrinking**
     },
     hideDrawer: {
-        display: 'flex',
-        '@media (max-width: 600px)': {
-            display: 'none',
+        display: 'none',
+        '@media (min-width: 600px)': {
+            display: 'none', // **Corrected media query to hide drawer on wider screens**
         },
     },
 }
