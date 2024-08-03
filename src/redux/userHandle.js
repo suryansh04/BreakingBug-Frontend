@@ -158,11 +158,11 @@ export const getProductDetails = (id) => async (dispatch) => {
     }
 }
 
-export const getCustomers = (id) => async (dispatch) => {
+export const getCustomers = (address, id) => async (dispatch) => { // Added 'address' as a parameter
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`);
+        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`); // Use 'address'
         if (result.data.message) {
             dispatch(getCustomersListFailed(result.data.message));
         }
@@ -173,7 +173,8 @@ export const getCustomers = (id) => async (dispatch) => {
     } catch (error) {
         dispatch(getError(error));
     }
-}
+};
+
 
 export const getSpecificProducts = (id, address) => async (dispatch) => {
     dispatch(getRequest());
