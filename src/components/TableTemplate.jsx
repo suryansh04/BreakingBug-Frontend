@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableRow, styled, tableCellClasses } from '@mui/material'; // **Added missing import for tableCellClasses**
-import ButtonHaver from './ButtonHaver'; // **Added import for ButtonHaver**
+import { Table, TableBody, TableCell, TableContainer, TableRow, styled, tableCellClasses } from '@mui/material';
+import ButtonHaver from './ButtonHaver'; // **Ensure this path is correct**
 
 const TableTemplate = ({ columns, rows }) => {
   const [page, setPage] = useState(0);
@@ -17,7 +17,7 @@ const TableTemplate = ({ columns, rows }) => {
                 align={column.align}
                 style={{ minWidth: column.minWidth }}
               >
-                {column.label} {/* **Added column header label here** */}
+                {column.label}
               </StyledTableCell>
             ))}
             <StyledTableCell align="center">
@@ -26,24 +26,24 @@ const TableTemplate = ({ columns, rows }) => {
           </StyledTableRow>
           <TableBody>
             {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // **Fixed the slice logic**
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <StyledTableRow hover role="checkbox" tabIndex={0} key={row.id}> {/* **Changed key to row.id** */}
+                  <StyledTableRow hover role="checkbox" tabIndex={0} key={row.id}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <StyledTableCell key={column.id} align={column.align}> {/* **Changed key to column.id** */}
+                        <StyledTableCell key={column.id} align={column.align}>
                           {
                             column.format && typeof value === 'number'
-                              ? column.format(value) // **Fixed usage of `format` method**
+                              ? column.format(value)
                               : value
                           }
                         </StyledTableCell>
                       );
                     })}
                     <StyledTableCell align="center">
-                      <ButtonHaver row={row}/> {/* **Added ButtonHaver component** */}
+                      <ButtonHaver row={row}/>
                     </StyledTableCell>
                   </StyledTableRow>
                 );
@@ -52,17 +52,16 @@ const TableTemplate = ({ columns, rows }) => {
         </Table>
       </TableContainer>
       {/* Pagination component is missing here. Consider adding a Pagination component from MUI */}
-      {/* Here's a rough example of how it could be included */}
       {/* 
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 100]}
           component="div"
-          count={rows.length} // **Fixed rows size to rows.length**
+          count={rows.length} 
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={(event, newPage) => setPage(newPage)} // **Fixed page setter**
+          onPageChange={(event, newPage) => setPage(newPage)}
           onRowsPerPageChange={(event) => {
-            setRowsPerPage(parseInt(event.target.value, 10)); // **Fixed radix parameter**
+            setRowsPerPage(parseInt(event.target.value, 10));
             setPage(0);
           }}
         />
@@ -74,11 +73,11 @@ const TableTemplate = ({ columns, rows }) => {
 export default TableTemplate;
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: { // **Fixed reference to tableCellClasses**
+  [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
-  [`&.${tableCellClasses.body}`]: { // **Fixed reference to tableCellClasses**
+  [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
 }));
@@ -87,7 +86,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
   },
