@@ -304,6 +304,7 @@ export const {
     getError,
     getSearchFailed,
     customersListSuccess,
+    getCustomersListFailed, // Ensure this is included
     getSpecificProductsFailed,
     specificProductSuccess,
     addToCart,
