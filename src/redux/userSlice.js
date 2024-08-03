@@ -122,12 +122,8 @@ const userSlice = createSlice({
             const productIdToRemove = action.payload;
             state.currentUser.cartDetails = state.currentUser.cartDetails.filter(
               (cartItem) => cartItem._id !== productIdToRemove
-
             );
-
-            
-          },
-        
+        },
 
         fetchProductDetailsFromCart: (state, action) => {
             const productIdToFetch = action.payload;
@@ -170,9 +166,14 @@ const userSlice = createSlice({
         },
 
         isTokenValid: (state) => {
-            const decodedToken = jwtDecode(state.currentToken);
-            if (state.currentToken) {              state.isLoggedIn = true;
-            } else {
+            try {
+                const decodedToken = jwtDecode(state.currentToken);
+                if (decodedToken) { // Updated condition
+                    state.isLoggedIn = true;
+                } else {
+                    throw new Error('Invalid token');
+                }
+            } catch (error) {
                 localStorage.removeItem('user');
                 state.currentUser = null;
                 state.currentRole = null;
@@ -265,7 +266,7 @@ const userSlice = createSlice({
             state.error = null;
         },
 
-        setFilteredProducts: (state, action) => {
+        setFilteredProducts: (state, action) => { // Add this block here
             state.filteredProducts = action.payload;
             state.responseSearch = null;
             state.loading = false;
@@ -311,7 +312,7 @@ export const {
     removeAllFromCart,
     fetchProductDetailsFromCart,
     updateCurrentUser,
-    
+    setFilteredProducts, // Add this line
 } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
