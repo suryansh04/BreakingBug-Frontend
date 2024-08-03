@@ -1,10 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { userReducer } from './userSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import { userReducer } from "./userSlice";
 
 const store = configureStore({
-    reducer={
-        user: userReducer,
-    }
+  // ** Fixed the error here change =  to :
+  reducer: {
+    user: userReducer,
+  },
 });
 
 export default store;
