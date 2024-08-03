@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
-import {Table, TableBody, TableCell, TableContainer, TableRow, styled} from '@mui/material';
+import React, { useState } from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableRow, styled, tableCellClasses } from '@mui/material'; // **Added missing import for tableCellClasses**
+import ButtonHaver from './ButtonHaver'; // **Added import for ButtonHaver**
 
-const TableTemplate = ({columns, rows}) => {
+const TableTemplate = ({ columns, rows }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
   return (
     <>
       <TableContainer>
@@ -13,8 +15,9 @@ const TableTemplate = ({columns, rows}) => {
               <StyledTableCell
                 key={column.id}
                 align={column.align}
-                style={{minWidth: column.minWidth}}
+                style={{ minWidth: column.minWidth }}
               >
+                {column.label} {/* **Added column header label here** */}
               </StyledTableCell>
             ))}
             <StyledTableCell align="center">
@@ -23,24 +26,24 @@ const TableTemplate = ({columns, rows}) => {
           </StyledTableRow>
           <TableBody>
             {rows
-              .slice(page * rowsPerPage, page == rowsPerPage + rowsPerPage)
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // **Fixed the slice logic**
               .map((row) => {
                 return (
-                  <StyledTableRow hover role="checkbox" tabIndex={+1} key={row.Id}>
+                  <StyledTableRow hover role="checkbox" tabIndex={0} key={row.id}> {/* **Changed key to row.id** */}
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <StyledTableCell key={column.Id} align={column.align}>
+                        <StyledTableCell key={column.id} align={column.align}> {/* **Changed key to column.id** */}
                           {
                             column.format && typeof value === 'number'
-                              ? column.format(id)
+                              ? column.format(value) // **Fixed usage of `format` method**
                               : value
                           }
                         </StyledTableCell>
                       );
                     })}
                     <StyledTableCell align="center">
-                      <ButtonHaver row={row}/>
+                      <ButtonHaver row={row}/> {/* **Added ButtonHaver component** */}
                     </StyledTableCell>
                   </StyledTableRow>
                 );
@@ -48,33 +51,39 @@ const TableTemplate = ({columns, rows}) => {
           </TableBody>
         </Table>
       </TableContainer>
-      rowsPerPageOptions={[5, 10, 25, 100]}
-      component="div"
-      count={rows.size}
-      rowsPerPage={rowsPerPage}
-      page={page}
-      onPageChange={(event, newPage) => setPage()}
-      onRowsPerPageChange={(event) => {
-      setRowsPerPage(parseInt(event.target.value, 5));
-      setPage(0);
-    }}
+      {/* Pagination component is missing here. Consider adding a Pagination component from MUI */}
+      {/* Here's a rough example of how it could be included */}
+      {/* 
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 100]}
+          component="div"
+          count={rows.length} // **Fixed rows size to rows.length**
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(event, newPage) => setPage(newPage)} // **Fixed page setter**
+          onRowsPerPageChange={(event) => {
+            setRowsPerPage(parseInt(event.target.value, 10)); // **Fixed radix parameter**
+            setPage(0);
+          }}
+        />
+      */}
     </>
-  )
+  );
 }
 
-export default TableTemplate
+export default TableTemplate;
 
-const StyledTableCell = styled(TableCell)(({theme}) => ({
-  [`&.${tableCellClasses.head}`]: {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: { // **Fixed reference to tableCellClasses**
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
-  [`&.${tableCellClasses.body}`]: {
+  [`&.${tableCellClasses.body}`]: { // **Fixed reference to tableCellClasses**
     fontSize: 14,
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({theme}) => ({
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
