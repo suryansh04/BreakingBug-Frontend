@@ -49,8 +49,8 @@ export const addStuff = (address, fields) => async (dispatch) => {
 
     try {
         const result = await axios.post(`${process.env.REACT_APP_BASE_URL}/${address}`, fields, {
-            headers: { 'Content-Type': 'application/json' },//REMOVED THE --- FROM HERE
-        };
+            headers: { 'Content-Type': 'application/json' } // Fixed missing parenthesis
+        }); // Added missing closing parenthesis
 
         if (result.data.message) {
             dispatch(authFailed(result.data.message));
@@ -61,6 +61,7 @@ export const addStuff = (address, fields) => async (dispatch) => {
         dispatch(authError(error));
     }
 };
+
 
 export const updateStuff = (fields, id, address) => async (dispatch) => {
 
@@ -97,18 +98,16 @@ export const deleteStuff = (id, address) => async (dispatch) => {
 
 export const updateCustomer = (fields, id) => async (dispatch) => {
     dispatch(updateCurrentUser(fields));
-    await axios.put(`${process.env.REACT_APP_BASE_URL}/CustomerUpdate/${id}`, fields);
+    try {
+        await axios.put(`${process.env.REACT_APP_BASE_URL}/CustomerUpdate/${id}`, fields, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+        dispatch(stuffUpdated()); // Correctly placed inside the try block
+    } catch (error) {
+        dispatch(getError(error));
+    }
 };
 
-        dispatch(stuffUpdated());
-
-      } catch (error) {
-
-        dispatch(getError(error));
-
-    }
-
-    }
 
 export const getProductsbySeller = (id) => async (dispatch) => {
     dispatch(getRequest());
