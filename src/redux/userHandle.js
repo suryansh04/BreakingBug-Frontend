@@ -41,7 +41,7 @@ export const authUser = (fields, role, mode) => async (dispatch) => {
         }
     } catch (error) {
         dispatch(authError(error));
-    }//suryansh
+    }
 };
 
 export const addStuff = (address, fields) => async (dispatch) => {
@@ -49,7 +49,7 @@ export const addStuff = (address, fields) => async (dispatch) => {
 
     try {
         const result = await axios.post(`${process.env.REACT_APP_BASE_URL}/${address}`, fields, {
-            headers: { 'Content-Type': 'application/json' },---
+            headers: { 'Content-Type': 'application/json' },//REMOVED THE --- FROM HERE
         };
 
         if (result.data.message) {
