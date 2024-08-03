@@ -41,7 +41,7 @@ export const authUser = (fields, role, mode) => async (dispatch) => {
         }
     } catch (error) {
         dispatch(authError(error));
-    }//suryansh
+    }
 };
 
 export const addStuff = (address, fields) => async (dispatch) => {
