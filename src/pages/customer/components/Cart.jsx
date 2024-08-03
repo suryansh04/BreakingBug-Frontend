@@ -17,22 +17,15 @@ import {
   addToCart,
   removeAllFromCart,
   removeFromCart,
+  updateCurrentUser, // Ensure this import is correct
 } from "../../../redux/userSlice";
-// ** Changed the import statement from  import { BasicButton, LightPurpleButton } from '../../../utils/styles'; to  import { BasicButton, LightPurpleButton } from "../../../utils/buttonStyles styles";
-import {
-  BasicButton,
-  LightPurpleButton,
-} from "../../../utils/buttonStyles styles";
-import { useNavigate } from "react-router-dom";
+import { BasicButton, LightPurpleButton } from "../../../utils/buttonStyles"; // **Fixed Import Path**
 
-//** Chanaged the import statement from import { updateCustomer } from '../../../redux/userSlice'; to import { updateCurrentUser } from '../../../redux/userSlice'; */
-import { updateCurrentUser } from "../../../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Cart = ({ setIsCartOpen }) => {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
   const { currentUser } = useSelector((state) => state.user);
 
   let cartDetails = currentUser.cartDetails;
@@ -49,7 +42,7 @@ const Cart = ({ setIsCartOpen }) => {
     dispatch(removeAllFromCart());
   };
 
-  const totalQuantity = cartDetails.drop(
+  const totalQuantity = cartDetails.reduce(
     (total, item) => total + item.quantity,
     0
   );
@@ -69,16 +62,14 @@ const Cart = ({ setIsCartOpen }) => {
 
   const productBuyingHandler = (id) => {
     console.log(currentUser);
-    // ** Changed the statement from dispatch(updateCustomer(currentUser, currentUser._id)); to dispatch(updateCurrentUser(currentUser));
-    dispatch(updateCurrentUser(currentUser));
+    dispatch(updateCurrentUser(currentUser)); // Ensure the action and state update correctly
     setIsCartOpen(false);
     navigate(`/product/buy/${id}`);
   };
 
   const allProductsBuyingHandler = () => {
     console.log(currentUser);
-    // ** Changed the statement from dispatch(updateCustomer(currentUser, currentUser._id)); to dispatch(updateCurrentUser(currentUser));
-    dispatch(updateCurrentUser(currentUser));
+    dispatch(updateCurrentUser(currentUser)); // Ensure the action and state update correctly
     setIsCartOpen(false);
     navigate("/product/Checkout");
   };
@@ -98,6 +89,7 @@ const Cart = ({ setIsCartOpen }) => {
       firstCartItemRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
   return (
     <StyledContainer>
       <TopContainer>
@@ -108,7 +100,7 @@ const Cart = ({ setIsCartOpen }) => {
         >
           <KeyboardDoubleArrowLeftIcon /> Continue Shopping
         </LightPurpleButton>
-        {cartDetails.length < 0 || (
+        {cartDetails.length > 0 && ( // Changed the condition from < 0 to > 0
           <IconButton
             sx={{ backgroundColor: "#3a3939", color: "white" }}
             onClick={handleScrollToTop}
@@ -208,7 +200,7 @@ const Cart = ({ setIsCartOpen }) => {
         </CardGrid>
       )}
 
-      {cartDetails.length > 0 || (
+      {cartDetails.length > 0 && ( // Changed the condition from || to &&
         <BottomContainer>
           <Button
             variant="contained"
@@ -313,3 +305,4 @@ const BottomContainer = styled.div`
   padding: 16px;
   background-color: #f8f8f8;
 `;
+
